@@ -55,7 +55,7 @@ void measure_launch_overhead(const unsigned grid_size) {
 	const auto time_diff = time_B - time_A;
 
 	std::printf("[GridSize = %8u, BlockSize = %3u] ", grid_size, block_size);
-	std::printf("elapsed time A : %8lu [ns], elapsed time B : %8lu [ns], ns/ops : %e [ns], launch overhead : %3lu [ns]\n",
+	std::printf("elapsed time A : %8lu [ns], elapsed time B : %8lu [ns], time/op : %e [ns], launch overhead : %3lu [ns]\n",
 			time_A,
 			time_B,
 			static_cast<double>(time_diff) / (num_ops_B - num_ops_A),
