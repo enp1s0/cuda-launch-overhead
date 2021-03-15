@@ -8,6 +8,8 @@ make
 ```
 
 ## Result
+![result](./result.png)
+
 ```
 [GridSize =        1, BlockSize = 256] elapsed time A :      105 [ns], elapsed time B :     3038 [ns], time/op : 2.797127e-03 [ns], launch overhead :  14 [ns]
 [GridSize =        2, BlockSize = 256] elapsed time A :       99 [ns], elapsed time B :     3048 [ns], time/op : 2.812386e-03 [ns], launch overhead :   7 [ns]
