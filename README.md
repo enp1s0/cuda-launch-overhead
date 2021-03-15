@@ -1,4 +1,4 @@
-# CUDA kernel function launch overfead
+# CUDA kernel function launch overhead
 
 ## Build
 ```bash
