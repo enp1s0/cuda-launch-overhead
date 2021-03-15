@@ -19,8 +19,8 @@ void measure_launch_overhead(const unsigned grid_size) {
 	constexpr unsigned block_size = 256;
 	const auto array_length = block_size * grid_size;
 
-	constexpr unsigned num_ops_A = 1000;
-	constexpr unsigned num_ops_B = num_ops_A + 1000;
+	constexpr unsigned num_ops_A = 1u << 15;
+	constexpr unsigned num_ops_B = num_ops_A + (1u << 20);
 
 	float *ha, *da_A, *da_B;
 	cudaMallocHost(&ha  , sizeof(float) * array_length);
@@ -39,7 +39,7 @@ void measure_launch_overhead(const unsigned grid_size) {
 	kernel<num_ops_A><<<grid_size, block_size>>>(da_A);
 	cudaDeviceSynchronize();
 	const auto end_A = std::chrono::high_resolution_clock::now();
-	const auto time_A = std::chrono::duration_cast<std::chrono::nanoseconds>(end_A - start_A).count();
+	const auto time_A = std::chrono::duration_cast<std::chrono::microseconds>(end_A - start_A).count();
 
 	// Sleep 2000ms to cool GPU
 	using namespace std::chrono_literals;
@@ -50,13 +50,14 @@ void measure_launch_overhead(const unsigned grid_size) {
 	kernel<num_ops_B><<<grid_size, block_size>>>(da_B);
 	cudaDeviceSynchronize();
 	const auto end_B = std::chrono::high_resolution_clock::now();
-	const auto time_B = std::chrono::duration_cast<std::chrono::nanoseconds>(end_B - start_B).count();
+	const auto time_B = std::chrono::duration_cast<std::chrono::microseconds>(end_B - start_B).count();
 
 	const auto time_diff = time_B - time_A;
 
 	std::printf("# GridSize = %u, BlockSize = %u\n", grid_size, block_size);
-	std::printf("launch overhead [A] : %lu [ns]\n", time_A - time_diff * num_ops_A / (num_ops_B - num_ops_A));
-	std::printf("launch overhead [B] : %lu [ns]\n", time_B - time_diff * num_ops_B / (num_ops_B - num_ops_A));
+	std::printf("[A] elapsed time : %lu [ns]\n", time_A);
+	std::printf("[B] elapsed time : %lu [ns]\n", time_B);
+	std::printf("launch overhead : %lu [ns]", time_A - time_diff * num_ops_A / (num_ops_B - num_ops_A));
 
 	cudaFree    (da_A);
 	cudaFree    (da_B);
