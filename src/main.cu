@@ -54,10 +54,12 @@ void measure_launch_overhead(const unsigned grid_size) {
 
 	const auto time_diff = time_B - time_A;
 
-	std::printf("# GridSize = %u, BlockSize = %u\n", grid_size, block_size);
-	std::printf("[A] elapsed time : %lu [ns]\n", time_A);
-	std::printf("[B] elapsed time : %lu [ns]\n", time_B);
-	std::printf("launch overhead : %lu [ns]", time_A - time_diff * num_ops_A / (num_ops_B - num_ops_A));
+	std::printf("[GridSize = %8u, BlockSize = %3u] ", grid_size, block_size);
+	std::printf("elapsed time A : %8lu [ns], elapsed time B : %8lu [ns], ns/ops : %e [ns], launch overhead : %3lu [ns]\n",
+			time_A,
+			time_B,
+			static_cast<double>(time_diff) / (num_ops_B - num_ops_A),
+			time_A - time_diff * num_ops_A / (num_ops_B - num_ops_A));
 
 	cudaFree    (da_A);
 	cudaFree    (da_B);
