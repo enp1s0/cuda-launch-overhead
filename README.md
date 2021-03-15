@@ -34,7 +34,7 @@ make
 ```
 
 - Intel Xeon E-2136
-- NVIDIA GeForce RTX 3080
+- NVIDIA GeForce RTX 3080 (68 SMs)
 
 ## License
 MIT
